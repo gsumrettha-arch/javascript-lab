@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Slider</title>
+
     <style>
         .slider {
-            text-align: center;
-            position: relative;
             width: 60%;
             margin: auto;
+            position: relative;
+            overflow: hidden;
         }
 
-        .slider img {
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slides img {
             width: 100%;
-            height: auto;
+            flex-shrink: 0;
         }
 
         .slider button {
@@ -40,32 +45,60 @@
 </head>
 
 <body>
+
     <div class="slider">
-        <img src="https://img.magnific.com/free-photo/closeup-shot-beautiful-butterfly-with-interesting-textures-orange-petaled-flower_181624-7640.jpg?semt=ais_hybrid&w=740&q=80"
-            class="slider-image" alt="Image 1">
+
+        <div class="slides">
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG9NBLVy_0IhwmJ3UULPB6DIhsyLZLGxLxvPicCL5Aiw&s=10">
+
+            <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_1200,q_60/lsci/db/PICTURES/CMS/398200/398295.jpg"
+                 alt="Image 2">
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWq7bDNTijI7w-VzNaVvqIm4WrICzmA5Zv__CcQtyrOg&s=10"
+                 alt="Image 3">
+
+        </div>
+
         <button id="prevBtn">Previous</button>
         <button id="nextBtn">Next</button>
+
     </div>
+
     <script>
-        let images = ["https://img.magnific.com/free-photo/closeup-shot-beautiful-butterfly-with-interesting-textures-orange-petaled-flower_181624-7640.jpg?semt=ais_hybrid&w=740&q=80","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ0-OdSc3yA7pAB_c0L23U0cL6nw1uubBvfQIbOG3VhGxG1K48WFaigIw&s=10"];
-        const imgElement = document.querySelector(".slider-image");
+
+        let currentIndex = 0;
+
+        const slides = document.querySelector(".slides");
+        const totalImages = document.querySelectorAll(".slides img").length;
+
         const nextBtn = document.getElementById("nextBtn");
         const prevBtn = document.getElementById("prevBtn");
-        // Manual image navigation
-        nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % images.length;
-            imgElement.src = images[currentIndex];
-        });
-        prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            imgElement.src = images[currentIndex];
-        });
-        // Automatic image change every 3 seconds
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % images.length;
-            imgElement.src = images[currentIndex];
-        }, 3000);
-    </script>
-</body>
 
+        function showImage() {
+            slides.style.transform =
+                `translateX(-${currentIndex * 100}%)`;
+        }
+
+        nextBtn.addEventListener("click", () => {
+
+            if (currentIndex < totalImages - 1) {
+                currentIndex++;
+                showImage();
+            }
+
+        });
+
+        prevBtn.addEventListener("click", () => {
+
+            if (currentIndex > 0) {
+                currentIndex--;
+                showImage();
+            }
+
+        });
+
+    </script>
+
+</body>
 </html>
